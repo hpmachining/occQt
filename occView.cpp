@@ -1,26 +1,15 @@
 /*
-*    Copyright (c) 2014 eryar All Rights Reserved.
+*    Copyright (c) 2018 Shing Liu All Rights Reserved.
 *
 *           File : OccView.cpp
-*         Author : eryar@163.com
-*           Date : 2014-07-15 21:00
-*        Version : OpenCASCADE6.8.0 & Qt5.4
+*         Author : Shing Liu(eryar@163.com)
+*           Date : 2018-01-08 21:00
+*        Version : OpenCASCADE7.2.0 & Qt5.7.1
 *
 *    Description : Qt widget for OpenCASCADE viewer.
 */
 
-// Moved the #include <OpenGl_GraphicsDriver.hxx> 
-// and added 9 #undef lines to get to build in Linux
 #include <OpenGl_GraphicDriver.hxx>
-#undef Bool
-#undef CursorShape
-#undef None
-#undef KeyPress
-#undef KeyRelease
-#undef FocusIn
-#undef FocusOut
-#undef FontChange
-#undef Expose
 
 #include "occView.h"
 
@@ -29,25 +18,28 @@
 #include <QRubberBand>
 #include <QStyleFactory>
 
-// occ header files.
 #include <V3d_View.hxx>
 
 #include <Aspect_Handle.hxx>
 #include <Aspect_DisplayConnection.hxx>
 
 #ifdef WNT
-  #include <WNT_Window.hxx>
+    #include <WNT_Window.hxx>
 #elif defined(__APPLE__) && !defined(MACOSX_USE_GLX)
-  #include <Cocoa_Window.hxx>
+    #include <Cocoa_Window.hxx>
 #else
-  #include <Xw_Window.hxx>
+    #undef Bool
+    #undef CursorShape
+    #undef None
+    #undef KeyPress
+    #undef KeyRelease
+    #undef FocusIn
+    #undef FocusOut
+    #undef FontChange
+    #undef Expose
+    #include <Xw_Window.hxx>
 #endif
 
-// the key for multi selection :
-#define MULTISELECTIONKEY Qt::ShiftModifier
-
-// the key for shortcut ( use to activate dynamic rotation, panning )
-#define CASCADESHORTCUTKEY Qt::ControlModifier
 
 static Handle(Graphic3d_GraphicDriver)& GetGraphicDriver()
 {
@@ -98,7 +90,7 @@ void OccView::init()
     #endif
 
     // Create V3dViewer and V3d_View
-    myViewer = new V3d_Viewer(GetGraphicDriver(), (Standard_ExtString)"viewer");
+    myViewer = new V3d_Viewer(GetGraphicDriver(), Standard_ExtString("viewer3d"));
 
     myView = myViewer->CreateView();
 
@@ -116,7 +108,7 @@ void OccView::init()
     myView->MustBeResized();
     myView->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_ZBUFFER);
 
-    myContext->SetDisplayMode(AIS_Shaded);
+    myContext->SetDisplayMode(AIS_Shaded, Standard_True);
 }
 
 const Handle(AIS_InteractiveContext)& OccView::getContext() const
@@ -124,11 +116,8 @@ const Handle(AIS_InteractiveContext)& OccView::getContext() const
     return myContext;
 }
 
-void OccView::paintEvent( QPaintEvent* e )
+void OccView::paintEvent( QPaintEvent* /*theEvent*/ )
 {
-    // eliminate the warning C4100: 'e' : unreferenced formal parameter
-    Q_UNUSED(e);
-
     if (myContext.IsNull())
     {
         init();
@@ -137,10 +126,8 @@ void OccView::paintEvent( QPaintEvent* e )
     myView->Redraw();
 }
 
-void OccView::resizeEvent( QResizeEvent* e )
+void OccView::resizeEvent( QResizeEvent* /*theEvent*/ )
 {
-    Q_UNUSED(e);
-
     if( !myView.IsNull() )
     {
         myView->MustBeResized();
@@ -174,53 +161,50 @@ void OccView::rotate( void )
     myCurrentMode = CurAction3d_DynamicRotation;
 }
 
-
-void OccView::mousePressEvent( QMouseEvent* e )
+void OccView::mousePressEvent( QMouseEvent* theEvent )
 {
-    if (e->button() == Qt::LeftButton)
+    if (theEvent->button() == Qt::LeftButton)
     {
-        onLButtonDown((e->buttons() | e->modifiers()), e->pos());
+        onLButtonDown((theEvent->buttons() | theEvent->modifiers()), theEvent->pos());
     }
-    else if (e->button() == Qt::MidButton)
+    else if (theEvent->button() == Qt::MidButton)
     {
-        onMButtonDown((e->buttons() | e->modifiers()), e->pos());
+        onMButtonDown((theEvent->buttons() | theEvent->modifiers()), theEvent->pos());
     }
-    else if (e->button() == Qt::RightButton)
+    else if (theEvent->button() == Qt::RightButton)
     {
-        onRButtonDown((e->buttons() | e->modifiers()), e->pos());
+        onRButtonDown((theEvent->buttons() | theEvent->modifiers()), theEvent->pos());
     }
 }
 
-void OccView::mouseReleaseEvent( QMouseEvent* e )
+void OccView::mouseReleaseEvent( QMouseEvent* theEvent )
 {
-    if (e->button() == Qt::LeftButton)
+    if (theEvent->button() == Qt::LeftButton)
     {
-        onLButtonUp(e->buttons() | e->modifiers(), e->pos());
+        onLButtonUp(theEvent->buttons() | theEvent->modifiers(), theEvent->pos());
     }
-    else if (e->button() == Qt::MidButton)
+    else if (theEvent->button() == Qt::MidButton)
     {
-        onMButtonUp(e->buttons() | e->modifiers(), e->pos());
+        onMButtonUp(theEvent->buttons() | theEvent->modifiers(), theEvent->pos());
     }
-    else if (e->button() == Qt::RightButton)
+    else if (theEvent->button() == Qt::RightButton)
     {
-        onRButtonUp(e->buttons() | e->modifiers(), e->pos());
+        onRButtonUp(theEvent->buttons() | theEvent->modifiers(), theEvent->pos());
     }
 }
 
-void OccView::mouseMoveEvent( QMouseEvent * e )
+void OccView::mouseMoveEvent( QMouseEvent * theEvent )
 {
-    onMouseMove(e->buttons(), e->pos());
+    onMouseMove(theEvent->buttons(), theEvent->pos());
 }
 
-void OccView::wheelEvent( QWheelEvent * e )
+void OccView::wheelEvent( QWheelEvent * theEvent )
 {
-    onMouseWheel(e->buttons(), e->delta(), e->pos());
+    onMouseWheel(theEvent->buttons(), theEvent->delta(), theEvent->pos());
 }
 
-void OccView::onLButtonDown( const int theFlags, const QPoint thePoint )
+void OccView::onLButtonDown( const int /*theFlags*/, const QPoint thePoint )
 {
-    Q_UNUSED(theFlags);
-
     // Save the current mouse coordinate in min.
     myXmin = thePoint.x();
     myYmin = thePoint.y();
@@ -229,10 +213,8 @@ void OccView::onLButtonDown( const int theFlags, const QPoint thePoint )
 
 }
 
-void OccView::onMButtonDown( const int theFlags, const QPoint thePoint )
+void OccView::onMButtonDown( const int /*theFlags*/, const QPoint thePoint )
 {
-    Q_UNUSED(theFlags);
-
     // Save the current mouse coordinate in min.
     myXmin = thePoint.x();
     myYmin = thePoint.y();
@@ -245,16 +227,13 @@ void OccView::onMButtonDown( const int theFlags, const QPoint thePoint )
     }
 }
 
-void OccView::onRButtonDown( const int theFlags, const QPoint thePoint )
+void OccView::onRButtonDown( const int /*theFlags*/, const QPoint /*thePoint*/ )
 {
-    Q_UNUSED(theFlags);
-    Q_UNUSED(thePoint);
+
 }
 
-void OccView::onMouseWheel( const int theFlags, const int theDelta, const QPoint thePoint )
+void OccView::onMouseWheel( const int /*theFlags*/, const int theDelta, const QPoint thePoint )
 {
-    Q_UNUSED(theFlags);
-
     Standard_Integer aFactor = 16;
 
     Standard_Integer aX = thePoint.x();
@@ -274,15 +253,12 @@ void OccView::onMouseWheel( const int theFlags, const int theDelta, const QPoint
     myView->Zoom(thePoint.x(), thePoint.y(), aX, aY);
 }
 
-void OccView::addItemInPopup( QMenu* theMenu )
+void OccView::addItemInPopup( QMenu* /*theMenu*/ )
 {
-    Q_UNUSED(theMenu);
 }
 
-void OccView::popup( const int x, const int y )
+void OccView::popup( const int /*x*/, const int /*y*/ )
 {
-    Q_UNUSED(x);
-    Q_UNUSED(y);
 }
 
 void OccView::onLButtonUp( const int theFlags, const QPoint thePoint )
@@ -308,20 +284,16 @@ void OccView::onLButtonUp( const int theFlags, const QPoint thePoint )
 
 }
 
-void OccView::onMButtonUp( const int theFlags, const QPoint thePoint )
+void OccView::onMButtonUp( const int /*theFlags*/, const QPoint thePoint )
 {
-    Q_UNUSED(theFlags);
-
     if (thePoint.x() == myXmin && thePoint.y() == myYmin)
     {
         panByMiddleButton(thePoint);
     }
 }
 
-void OccView::onRButtonUp( const int theFlags, const QPoint thePoint )
+void OccView::onRButtonUp( const int /*theFlags*/, const QPoint thePoint )
 {
-    Q_UNUSED(theFlags);
-
     popup(thePoint.x(), thePoint.y());
 }
 
@@ -373,14 +345,14 @@ void OccView::onMouseMove( const int theFlags, const QPoint thePoint )
 
 void OccView::dragEvent( const int x, const int y )
 {
-    myContext->Select( myXmin, myYmin, x, y, myView );
+    myContext->Select(myXmin, myYmin, x, y, myView, Standard_True);
 
     emit selectionChanged();
 }
 
 void OccView::multiDragEvent( const int x, const int y )
 {
-    myContext->ShiftSelect( myXmin, myYmin, x, y, myView );
+    myContext->ShiftSelect(myXmin, myYmin, x, y, myView, Standard_True);
 
     emit selectionChanged();
 
@@ -391,7 +363,7 @@ void OccView::inputEvent( const int x, const int y )
     Q_UNUSED(x);
     Q_UNUSED(y);
 
-    myContext->Select();
+    myContext->Select(Standard_True);
 
     emit selectionChanged();
 }
@@ -401,19 +373,19 @@ void OccView::multiInputEvent( const int x, const int y )
     Q_UNUSED(x);
     Q_UNUSED(y);
 
-    myContext->ShiftSelect();
+    myContext->ShiftSelect(Standard_True);
 
     emit selectionChanged();
 }
 
 void OccView::moveEvent( const int x, const int y )
 {
-    myContext->MoveTo(x, y, myView);
+    myContext->MoveTo(x, y, myView, Standard_True);
 }
 
 void OccView::multiMoveEvent( const int x, const int y )
 {
-    myContext->MoveTo(x, y, myView);
+    myContext->MoveTo(x, y, myView, Standard_True);
 }
 
 void OccView::drawRubberBand( const int minX, const int minY, const int maxX, const int maxY )

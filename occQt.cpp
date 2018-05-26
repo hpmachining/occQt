@@ -1,10 +1,10 @@
 /*
-*    Copyright (c) 2014 eryar All Rights Reserved.
+*    Copyright (c) 2018 Shing Liu All Rights Reserved.
 *
 *           File : occQt.cpp
-*         Author : eryar@163.com
-*           Date : 2014-07-15 21:00
-*        Version : OpenCASCADE6.8.0 & Qt5.4
+*         Author : Shing Liu(eryar@163.com)
+*           Date : 2018-01-08 21:00
+*        Version : OpenCASCADE7.2.0 & Qt5.7.1
 *
 *    Description : Qt main window for OpenCASCADE.
 */
@@ -84,183 +84,78 @@ occQt::~occQt()
 
 void occQt::createActions( void )
 {
-    mExitAction = new QAction(tr("Exit"), this);
-    mExitAction->setShortcut(tr("Ctrl+Q"));
-    mExitAction->setIcon(QIcon(":/Resources/close.png"));
-    mExitAction->setStatusTip(tr("Exit the application"));
-    connect(mExitAction, SIGNAL(triggered()), this, SLOT(close()));
+    // File
+    connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
-    mViewZoomAction = new QAction(tr("Zoom"), this);
-    mViewZoomAction->setIcon(QIcon(":/Resources/Zoom.png"));
-    mViewZoomAction->setStatusTip(tr("Zoom the view"));
-    connect(mViewZoomAction, SIGNAL(triggered()), myOccView, SLOT(zoom()));
+    // View
+    connect(ui.actionZoom, SIGNAL(triggered()), myOccView, SLOT(zoom()));
+    connect(ui.actionPan, SIGNAL(triggered()), myOccView, SLOT(pan()));
+    connect(ui.actionRotate, SIGNAL(triggered()), myOccView, SLOT(rotate()));
 
-    mViewPanAction = new QAction(tr("Pan"), this);
-    mViewPanAction->setIcon(QIcon(":/Resources/Pan.png"));
-    mViewPanAction->setStatusTip(tr("Pan the view"));
-    connect(mViewPanAction, SIGNAL(triggered()), myOccView, SLOT(pan()));
+    connect(ui.actionReset, SIGNAL(triggered()), myOccView, SLOT(reset()));
+    connect(ui.actionFitAll, SIGNAL(triggered()), myOccView, SLOT(fitAll()));
 
-    mViewRotateAction = new QAction(tr("Rotate"), this);
-    mViewRotateAction->setIcon(QIcon(":/Resources/Rotate.png"));
-    mViewRotateAction->setStatusTip(tr("Rotate the view"));
-    connect(mViewRotateAction, SIGNAL(triggered()), myOccView, SLOT(rotate()));
+    // Primitive
+    connect(ui.actionBox, SIGNAL(triggered()), this, SLOT(makeBox()));
+    connect(ui.actionCone, SIGNAL(triggered()), this, SLOT(makeCone()));
+    connect(ui.actionSphere, SIGNAL(triggered()), this, SLOT(makeSphere()));
+    connect(ui.actionCylinder, SIGNAL(triggered()), this, SLOT(makeCylinder()));
+    connect(ui.actionTorus, SIGNAL(triggered()), this, SLOT(makeTorus()));
 
-    mViewResetAction = new QAction(tr("Reset"), this);
-    mViewResetAction->setIcon(QIcon(":/Resources/Home.png"));
-    mViewResetAction->setStatusTip(tr("Reset the view"));
-    connect(mViewResetAction, SIGNAL(triggered()), myOccView, SLOT(reset()));
+    // Modeling
+    connect(ui.actionFillet, SIGNAL(triggered()), this, SLOT(makeFillet()));
+    connect(ui.actionChamfer, SIGNAL(triggered()), this, SLOT(makeChamfer()));
+    connect(ui.actionExtrude, SIGNAL(triggered()), this, SLOT(makeExtrude()));
+    connect(ui.actionRevolve, SIGNAL(triggered()), this, SLOT(makeRevol()));
+    connect(ui.actionLoft, SIGNAL(triggered()), this, SLOT(makeLoft()));
 
-    mViewFitallAction = new QAction(tr("Fit All"), this);
-    mViewFitallAction->setIcon(QIcon(":/Resources/FitAll.png"));
-    mViewFitallAction->setStatusTip(tr("Fit all "));
-    connect(mViewFitallAction, SIGNAL(triggered()), myOccView, SLOT(fitAll()));
+    connect(ui.actionCut, SIGNAL(triggered()), this, SLOT(testCut()));
+    connect(ui.actionFuse, SIGNAL(triggered()), this, SLOT(testFuse()));
+    connect(ui.actionCommon, SIGNAL(triggered()), this, SLOT(testCommon()));
 
-    mMakeBoxAction = new QAction(tr("Box"), this);
-    mMakeBoxAction->setIcon(QIcon(":/Resources/box.png"));
-    mMakeBoxAction->setStatusTip(tr("Make a box"));
-    connect(mMakeBoxAction, SIGNAL(triggered()), this, SLOT(makeBox()));
+    connect(ui.actionHelix, SIGNAL(triggered()), this, SLOT(testHelix()));
 
-    mMakeConeAction = new QAction(tr("Cone"), this);
-    mMakeConeAction->setIcon(QIcon(":/Resources/cone.png"));
-    mMakeConeAction->setStatusTip(tr("Make a cone"));
-    connect(mMakeConeAction, SIGNAL(triggered()), this, SLOT(makeCone()));
-
-    mMakeSphereAction = new QAction(tr("Sphere"), this);
-    mMakeSphereAction->setStatusTip(tr("Make a sphere"));
-    mMakeSphereAction->setIcon(QIcon(":/Resources/sphere.png"));
-    connect(mMakeSphereAction, SIGNAL(triggered()), this, SLOT(makeSphere()));
-
-    mMakeCylinderAction = new QAction(tr("Cylinder"), this);
-    mMakeCylinderAction->setStatusTip(tr("Make a cylinder"));
-    mMakeCylinderAction->setIcon(QIcon(":/Resources/cylinder.png"));
-    connect(mMakeCylinderAction, SIGNAL(triggered()), this, SLOT(makeCylinder()));
-
-    mMakeTorusAction = new QAction(tr("Torus"), this);
-    mMakeTorusAction->setStatusTip(tr("Make a torus"));
-    mMakeTorusAction->setIcon(QIcon(":/Resources/torus.png"));
-    connect(mMakeTorusAction, SIGNAL(triggered()), this, SLOT(makeTorus()));
-
-    mFilletAction = new QAction(tr("Fillet"), this);
-    mFilletAction->setIcon(QIcon(":/Resources/fillet.png"));
-    mFilletAction->setStatusTip(tr("Test Fillet algorithm"));
-    connect(mFilletAction, SIGNAL(triggered()), this, SLOT(makeFillet()));
-
-    mChamferAction = new QAction(tr("Chamfer"), this);
-    mChamferAction->setIcon(QIcon(":/Resources/chamfer.png"));
-    mChamferAction->setStatusTip(tr("Test chamfer algorithm"));
-    connect(mChamferAction, SIGNAL(triggered()), this, SLOT(makeChamfer()));
-
-    mExtrudeAction = new QAction(tr("Extrude"), this);
-    mExtrudeAction->setIcon(QIcon(":/Resources/extrude.png"));
-    mExtrudeAction->setStatusTip(tr("Test extrude algorithm"));
-    connect(mExtrudeAction, SIGNAL(triggered()), this, SLOT(makeExtrude()));
-
-    mRevolveAction = new QAction(tr("Revolve"), this);
-    mRevolveAction->setIcon(QIcon(":/Resources/revolve.png"));
-    mRevolveAction->setStatusTip(tr("Test revol algorithm"));
-    connect(mRevolveAction, SIGNAL(triggered()), this, SLOT(makeRevol()));
-
-    mLoftAction = new QAction(tr("Loft"), this);
-    mLoftAction->setIcon(QIcon(":/Resources/loft.png"));
-    mLoftAction->setStatusTip(tr("Test loft algorithm"));
-    connect(mLoftAction, SIGNAL(triggered()), this, SLOT(makeLoft()));
-
-    mCutAction = new QAction(tr("Cut"), this);
-    mCutAction->setIcon(QIcon(":/Resources/cut.png"));
-    mCutAction->setStatusTip(tr("Boolean operation cut"));
-    connect(mCutAction, SIGNAL(triggered()), this, SLOT(testCut()));
-
-    mFuseAction = new QAction(tr("Fuse"), this);
-    mFuseAction->setIcon(QIcon(":/Resources/fuse.png"));
-    mFuseAction->setStatusTip(tr("Boolean operation fuse"));
-    connect(mFuseAction, SIGNAL(triggered()), this, SLOT(testFuse()));
-
-    mCommonAction = new QAction(tr("Common"), this);
-    mCommonAction->setIcon(QIcon(":/Resources/common.png"));
-    mCommonAction->setStatusTip(tr("Boolean operation common"));
-    connect(mCommonAction, SIGNAL(triggered()), this, SLOT(testCommon()));
-
-    myHelixAction = new QAction(tr("Helix"), this);
-    myHelixAction->setIcon(QIcon(":/Resources/helix.png"));
-    myHelixAction->setStatusTip(tr("Make helix shapes"));
-    connect(myHelixAction, SIGNAL(triggered()), this, SLOT(testHelix()));
-
-    mAboutAction = new QAction(tr("About"), this);
-    mAboutAction->setStatusTip(tr("About the application"));
-    mAboutAction->setIcon(QIcon(":/Resources/lamp.png"));
-    connect(mAboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    // Help
+    connect(ui.actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 void occQt::createMenus( void )
 {
-    mFileMenu = menuBar()->addMenu(tr("&File"));
-    mFileMenu->addAction(mExitAction);
-
-    mViewMenu = menuBar()->addMenu(tr("&View"));
-    mViewMenu->addAction(mViewZoomAction);
-    mViewMenu->addAction(mViewPanAction);
-    mViewMenu->addAction(mViewRotateAction);
-    mViewMenu->addSeparator();
-    mViewMenu->addAction(mViewResetAction);
-    mViewMenu->addAction(mViewFitallAction);
-
-    mPrimitiveMenu = menuBar()->addMenu(tr("&Primitive"));
-    mPrimitiveMenu->addAction(mMakeBoxAction);
-    mPrimitiveMenu->addAction(mMakeConeAction);
-    mPrimitiveMenu->addAction(mMakeSphereAction);
-    mPrimitiveMenu->addAction(mMakeCylinderAction);
-    mPrimitiveMenu->addAction(mMakeTorusAction);
-
-    mModelingMenu = menuBar()->addMenu(tr("&Modeling"));
-    mModelingMenu->addAction(mFilletAction);
-    mModelingMenu->addAction(mChamferAction);
-    mModelingMenu->addAction(mExtrudeAction);
-    mModelingMenu->addAction(mRevolveAction);
-    mModelingMenu->addAction(mLoftAction);
-    mModelingMenu->addSeparator();
-    mModelingMenu->addAction(mCutAction);
-    mModelingMenu->addAction(mFuseAction);
-    mModelingMenu->addAction(mCommonAction);
-    mModelingMenu->addSeparator();
-    mModelingMenu->addAction(myHelixAction);
-
-    mHelpMenu = menuBar()->addMenu(tr("&Help"));
-    mHelpMenu->addAction(mAboutAction);
 }
 
 void occQt::createToolBars( void )
 {
-    mNavigateToolBar = addToolBar(tr("&Navigate"));
-    mNavigateToolBar->addAction(mViewZoomAction);
-    mNavigateToolBar->addAction(mViewPanAction);
-    mNavigateToolBar->addAction(mViewRotateAction);
+    QToolBar* aToolBar = addToolBar(tr("&Navigate"));
+    aToolBar->addAction(ui.actionZoom);
+    aToolBar->addAction(ui.actionPan);
+    aToolBar->addAction(ui.actionRotate);
 
-    mViewToolBar = addToolBar(tr("&View"));
-    mViewToolBar->addAction(mViewResetAction);
-    mViewToolBar->addAction(mViewFitallAction);
+    aToolBar = addToolBar(tr("&View"));
+    aToolBar->addAction(ui.actionReset);
+    aToolBar->addAction(ui.actionFitAll);
 
-    mPrimitiveToolBar = addToolBar(tr("&Primitive"));
-    mPrimitiveToolBar->addAction(mMakeBoxAction);
-    mPrimitiveToolBar->addAction(mMakeConeAction);
-    mPrimitiveToolBar->addAction(mMakeSphereAction);
-    mPrimitiveToolBar->addAction(mMakeCylinderAction);
-    mPrimitiveToolBar->addAction(mMakeTorusAction);
+    aToolBar = addToolBar(tr("&Primitive"));
+    aToolBar->addAction(ui.actionBox);
+    aToolBar->addAction(ui.actionCone);
+    aToolBar->addAction(ui.actionSphere);
+    aToolBar->addAction(ui.actionCylinder);
+    aToolBar->addAction(ui.actionTorus);
 
-    mModelingToolBar = addToolBar(tr("&Modeling"));
-    mModelingToolBar->addAction(mFilletAction);
-    mModelingToolBar->addAction(mChamferAction);
-    mModelingToolBar->addAction(mExtrudeAction);
-    mModelingToolBar->addAction(mRevolveAction);
-    mModelingToolBar->addAction(mLoftAction);
-    mModelingToolBar->addSeparator();
-    mModelingToolBar->addAction(mCutAction);
-    mModelingToolBar->addAction(mFuseAction);
-    mModelingToolBar->addAction(mCommonAction);
-    mModelingToolBar->addSeparator();
-    mModelingToolBar->addAction(myHelixAction);
+    aToolBar = addToolBar(tr("&Modeling"));
+    aToolBar->addAction(ui.actionFillet);
+    aToolBar->addAction(ui.actionChamfer);
+    aToolBar->addAction(ui.actionExtrude);
+    aToolBar->addAction(ui.actionRevolve);
+    aToolBar->addAction(ui.actionLoft);
+    aToolBar->addSeparator();
+    aToolBar->addAction(ui.actionCut);
+    aToolBar->addAction(ui.actionFuse);
+    aToolBar->addAction(ui.actionCommon);
+    aToolBar->addSeparator();
+    aToolBar->addAction(ui.actionHelix);
 
-    mHelpToolBar = addToolBar(tr("Help"));
-    mHelpToolBar->addAction(mAboutAction);
+    aToolBar = addToolBar(tr("Help"));
+    aToolBar->addAction(ui.actionAbout);
 }
 
 void occQt::about()
@@ -278,7 +173,7 @@ void occQt::makeBox()
 
     anAisBox->SetColor(Quantity_NOC_AZURE);
 
-    myOccView->getContext()->Display(anAisBox);
+    myOccView->getContext()->Display(anAisBox, Standard_True);
 }
 
 void occQt::makeCone()
@@ -297,8 +192,8 @@ void occQt::makeCone()
 
     anAisCone->SetColor(Quantity_NOC_CHOCOLATE);
 
-    myOccView->getContext()->Display(anAisReducer);
-    myOccView->getContext()->Display(anAisCone);
+    myOccView->getContext()->Display(anAisReducer, Standard_True);
+    myOccView->getContext()->Display(anAisCone, Standard_True);
 }
 
 void occQt::makeSphere()
@@ -311,7 +206,7 @@ void occQt::makeSphere()
 
     anAisSphere->SetColor(Quantity_NOC_BLUE1);
 
-    myOccView->getContext()->Display(anAisSphere);
+    myOccView->getContext()->Display(anAisSphere, Standard_True);
 }
 
 void occQt::makeCylinder()
@@ -330,8 +225,8 @@ void occQt::makeCylinder()
 
     anAisPie->SetColor(Quantity_NOC_TAN);
 
-    myOccView->getContext()->Display(anAisCylinder);
-    myOccView->getContext()->Display(anAisPie);
+    myOccView->getContext()->Display(anAisCylinder, Standard_True);
+    myOccView->getContext()->Display(anAisPie, Standard_True);
 }
 
 void occQt::makeTorus()
@@ -350,8 +245,8 @@ void occQt::makeTorus()
 
     anAisElbow->SetColor(Quantity_NOC_THISTLE);
 
-    myOccView->getContext()->Display(anAisTorus);
-    myOccView->getContext()->Display(anAisElbow);
+    myOccView->getContext()->Display(anAisTorus, Standard_True);
+    myOccView->getContext()->Display(anAisElbow, Standard_True);
 }
 
 void occQt::makeFillet()
@@ -371,7 +266,7 @@ void occQt::makeFillet()
     Handle(AIS_Shape) anAisShape = new AIS_Shape(MF.Shape());
     anAisShape->SetColor(Quantity_NOC_VIOLET);
 
-    myOccView->getContext()->Display(anAisShape);
+    myOccView->getContext()->Display(anAisShape, Standard_True);
 }
 
 void occQt::makeChamfer()
@@ -396,7 +291,7 @@ void occQt::makeChamfer()
     Handle(AIS_Shape) anAisShape = new AIS_Shape(MC.Shape());
     anAisShape->SetColor(Quantity_NOC_TOMATO);
 
-    myOccView->getContext()->Display(anAisShape);
+    myOccView->getContext()->Display(anAisShape, Standard_True);
 }
 
 void occQt::makeExtrude()
@@ -433,10 +328,10 @@ void occQt::makeExtrude()
     anAisPrismCircle->SetColor(Quantity_NOC_PERU);
     anAisPrismEllipse->SetColor(Quantity_NOC_PINK);
 
-    myOccView->getContext()->Display(anAisPrismVertex);
-    myOccView->getContext()->Display(anAisPrismEdge);
-    myOccView->getContext()->Display(anAisPrismCircle);
-    myOccView->getContext()->Display(anAisPrismEllipse);
+    myOccView->getContext()->Display(anAisPrismVertex, Standard_True);
+    myOccView->getContext()->Display(anAisPrismEdge, Standard_True);
+    myOccView->getContext()->Display(anAisPrismCircle, Standard_True);
+    myOccView->getContext()->Display(anAisPrismEllipse, Standard_True);
 }
 
 void occQt::makeRevol()
@@ -479,10 +374,10 @@ void occQt::makeRevol()
     anAisRevolCircle->SetColor(Quantity_NOC_MAGENTA1);
     anAisRevolEllipse->SetColor(Quantity_NOC_MAROON);
 
-    myOccView->getContext()->Display(anAisRevolVertex);
-    myOccView->getContext()->Display(anAisRevolEdge);
-    myOccView->getContext()->Display(anAisRevolCircle);
-    myOccView->getContext()->Display(anAisRevolEllipse);
+    myOccView->getContext()->Display(anAisRevolVertex, Standard_True);
+    myOccView->getContext()->Display(anAisRevolEdge, Standard_True);
+    myOccView->getContext()->Display(anAisRevolCircle, Standard_True);
+    myOccView->getContext()->Display(anAisRevolEllipse, Standard_True);
 }
 
 void occQt::makeLoft()
@@ -519,8 +414,8 @@ void occQt::makeLoft()
     anAisShell->SetColor(Quantity_NOC_OLIVEDRAB);
     anAisSolid->SetColor(Quantity_NOC_PEACHPUFF);
 
-    myOccView->getContext()->Display(anAisShell);
-    myOccView->getContext()->Display(anAisSolid);
+    myOccView->getContext()->Display(anAisShell, Standard_True);
+    myOccView->getContext()->Display(anAisSolid, Standard_True);
 }
 
 void occQt::testCut()
@@ -550,10 +445,10 @@ void occQt::testCut()
     anAisCuttedShape1->SetColor(Quantity_NOC_TAN);
     anAisCuttedShape2->SetColor(Quantity_NOC_SALMON);
 
-    myOccView->getContext()->Display(anAisBox);
-    myOccView->getContext()->Display(anAisSphere);
-    myOccView->getContext()->Display(anAisCuttedShape1);
-    myOccView->getContext()->Display(anAisCuttedShape2);
+    myOccView->getContext()->Display(anAisBox, Standard_True);
+    myOccView->getContext()->Display(anAisSphere, Standard_True);
+    myOccView->getContext()->Display(anAisCuttedShape1, Standard_True);
+    myOccView->getContext()->Display(anAisCuttedShape2, Standard_True);
 }
 
 void occQt::testFuse()
@@ -577,9 +472,9 @@ void occQt::testFuse()
     anAisSphere->SetColor(Quantity_NOC_STEELBLUE);
     anAisFusedShape->SetColor(Quantity_NOC_ROSYBROWN);
 
-    myOccView->getContext()->Display(anAisBox);
-    myOccView->getContext()->Display(anAisSphere);
-    myOccView->getContext()->Display(anAisFusedShape);
+    myOccView->getContext()->Display(anAisBox, Standard_True);
+    myOccView->getContext()->Display(anAisSphere, Standard_True);
+    myOccView->getContext()->Display(anAisFusedShape, Standard_True);
 }
 
 void occQt::testCommon()
@@ -603,9 +498,9 @@ void occQt::testCommon()
     anAisSphere->SetColor(Quantity_NOC_STEELBLUE);
     anAisCommonShape->SetColor(Quantity_NOC_ROYALBLUE);
 
-    myOccView->getContext()->Display(anAisBox);
-    myOccView->getContext()->Display(anAisSphere);
-    myOccView->getContext()->Display(anAisCommonShape);
+    myOccView->getContext()->Display(anAisBox, Standard_True);
+    myOccView->getContext()->Display(anAisSphere, Standard_True);
+    myOccView->getContext()->Display(anAisCommonShape, Standard_True);
 }
 
 void occQt::testHelix()
@@ -637,7 +532,7 @@ void occQt::makeCylindricalHelix()
 
     Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-    myOccView->getContext()->Display(anAisHelixCurve);
+    myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
 
     // sweep a circle profile along the helix curve.
     // there is no curve3d in the pcurve edge, so approx one.
@@ -664,7 +559,7 @@ void occQt::makeCylindricalHelix()
 
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_CORAL);
-        myOccView->getContext()->Display(anAisPipe);
+        myOccView->getContext()->Display(anAisPipe, Standard_True);
     }
 }
 
@@ -692,7 +587,7 @@ void occQt::makeConicalHelix()
 
     Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-    myOccView->getContext()->Display(anAisHelixCurve);
+    myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
 
     // sweep a circle profile along the helix curve.
     // there is no curve3d in the pcurve edge, so approx one.
@@ -719,7 +614,7 @@ void occQt::makeConicalHelix()
 
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_DARKGOLDENROD);
-        myOccView->getContext()->Display(anAisPipe);
+        myOccView->getContext()->Display(anAisPipe, Standard_True);
     }
 }
 
@@ -743,7 +638,7 @@ void occQt::makeToroidalHelix()
 
     Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-    myOccView->getContext()->Display(anAisHelixCurve);
+    myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
 
     // sweep a circle profile along the helix curve.
     // there is no curve3d in the pcurve edge, so approx one.
@@ -770,6 +665,6 @@ void occQt::makeToroidalHelix()
 
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_CORNSILK1);
-        myOccView->getContext()->Display(anAisPipe);
+        myOccView->getContext()->Display(anAisPipe, Standard_True);
     }
 }

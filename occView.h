@@ -1,13 +1,12 @@
 /*
-*    Copyright (c) 2014 eryar All Rights Reserved.
+*    Copyright (c) 2018 Shing Liu All Rights Reserved.
 *
 *           File : OccView.h
-*         Author : eryar@163.com
-*           Date : 2014-07-15 21:00
-*        Version : OpenCASCADE6.8.0 & Qt5.4
+*         Author : Shing Liu(eryar@163.com)
+*           Date : 2018-01-09 21:00
+*        Version : OpenCASCADE7.2.0 & Qt5.7.1
 *
 *    Description : Adapte OpenCASCADE view for Qt.
-*
 */
 
 #ifndef _OCCVIEW_H_
@@ -41,7 +40,7 @@ public:
     //! constructor.
     OccView(QWidget* parent);
 
-    const Handle_AIS_InteractiveContext& getContext() const;
+    const Handle(AIS_InteractiveContext)& getContext() const;
 
 signals:
     void selectionChanged(void);
@@ -56,14 +55,14 @@ public slots:
 
 protected:
     // Paint events.
-    virtual void paintEvent(QPaintEvent* e);
-    virtual void resizeEvent(QResizeEvent* e);
+    virtual void paintEvent(QPaintEvent* theEvent);
+    virtual void resizeEvent(QResizeEvent* theEvent);
 
     // Mouse events.
-    virtual void mousePressEvent(QMouseEvent* e);
-    virtual void mouseReleaseEvent(QMouseEvent* e);
-    virtual void mouseMoveEvent(QMouseEvent * e);
-    virtual void wheelEvent(QWheelEvent * e);
+    virtual void mousePressEvent(QMouseEvent* theEvent);
+    virtual void mouseReleaseEvent(QMouseEvent* theEvent);
+    virtual void mouseMoveEvent(QMouseEvent * theEvent);
+    virtual void wheelEvent(QWheelEvent * theEvent);
 
     // Button events.
     virtual void onLButtonDown(const int theFlags, const QPoint thePoint);

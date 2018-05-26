@@ -1,18 +1,16 @@
 /*
-*    Copyright (c) 2013 to current year. All Rights Reserved.
+*    Copyright (c) 2018 Shing Liu All Rights Reserved.
 *
-*           File : occQt.cpp
-*         Author : eryar@163.com
-*           Date : 2014-11-29 10:18
-*        Version : OpenCASCADE6.8.0 & Qt5.4
+*           File : occQt.h
+*         Author : Shing Liu(eryar@163.com)
+*           Date : 2018-01-08 20:00
+*        Version : OpenCASCADE7.2.0 & Qt5.7.1
 *
 *    Description : OpenCASCADE in Qt.
-*
 */
 
 #ifndef OCCQT_H
 #define OCCQT_H
-
 
 #include "ui_occQt.h"
 
@@ -39,6 +37,15 @@ protected:
 
     //! create the toolbar.
     void createToolBars(void);
+
+    //! make cylindrical helix.
+    void makeCylindricalHelix(void);
+
+    //! make conical helix.
+    void makeConicalHelix(void);
+
+    //! make toroidal helix.
+    void makeToroidalHelix(void);
 
 private slots:
     //! show about box.
@@ -88,65 +95,6 @@ private slots:
 
 private:
     Ui::occQtClass ui;
-
-    //! make cylindrical helix.
-    void makeCylindricalHelix(void);
-
-    //! make conical helix.
-    void makeConicalHelix(void);
-
-    //! make toroidal helix.
-    void makeToroidalHelix(void);
-
-private:
-    //! the exit action.
-    QAction* mExitAction;
-
-    //! the actions for the view: pan, reset, fitall.
-    QAction* mViewZoomAction;
-    QAction* mViewPanAction;
-    QAction* mViewRotateAction;
-    QAction* mViewResetAction;
-    QAction* mViewFitallAction;
-
-    //! the actions to test the OpenCASCADE modeling algorithms.
-    QAction* mMakeBoxAction;
-    QAction* mMakeConeAction;
-    QAction* mMakeSphereAction;
-    QAction* mMakeCylinderAction;
-    QAction* mMakeTorusAction;
-
-    //! make a fillet box.
-    QAction* mFilletAction;
-    QAction* mChamferAction;
-    QAction* mExtrudeAction;
-    QAction* mRevolveAction;
-    QAction* mLoftAction;
-
-    //! boolean operations.
-    QAction* mCutAction;
-    QAction* mFuseAction;
-    QAction* mCommonAction;
-
-    //! helix shapes.
-    QAction* myHelixAction;
-
-    //! show the about info action.
-    QAction* mAboutAction;
-
-    //! the menus of the application.
-    QMenu* mFileMenu;
-    QMenu* mViewMenu;
-    QMenu* mPrimitiveMenu;
-    QMenu* mModelingMenu;
-    QMenu* mHelpMenu;
-
-    //! the toolbars of the application.
-    QToolBar* mViewToolBar;
-    QToolBar* mNavigateToolBar;
-    QToolBar* mPrimitiveToolBar;
-    QToolBar* mModelingToolBar;
-    QToolBar* mHelpToolBar;
 
     // wrapped the widget for occ.
     OccView* myOccView;
