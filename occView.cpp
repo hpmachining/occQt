@@ -11,18 +11,6 @@
 
 #include <OpenGl_GraphicDriver.hxx>
 
-#include "occView.h"
-
-#include <QMenu>
-#include <QMouseEvent>
-#include <QRubberBand>
-#include <QStyleFactory>
-
-#include <V3d_View.hxx>
-
-#include <Aspect_Handle.hxx>
-#include <Aspect_DisplayConnection.hxx>
-
 #ifdef WNT
     #include <WNT_Window.hxx>
 #elif defined(__APPLE__) && !defined(MACOSX_USE_GLX)
@@ -37,8 +25,21 @@
     #undef FocusOut
     #undef FontChange
     #undef Expose
+    #undef Status
     #include <Xw_Window.hxx>
 #endif
+
+#include "occView.h"
+
+#include <QMenu>
+#include <QMouseEvent>
+#include <QRubberBand>
+#include <QStyleFactory>
+
+#include <V3d_View.hxx>
+
+#include <Aspect_Handle.hxx>
+#include <Aspect_DisplayConnection.hxx>
 
 
 static Handle(Graphic3d_GraphicDriver)& GetGraphicDriver()
