@@ -24,18 +24,18 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>&amp;View</string>
     </property>
     <addaction name="actionZoom"/>
     <addaction name="actionPan"/>
@@ -46,7 +46,7 @@
    </widget>
    <widget class="QMenu" name="menuPrimitive">
     <property name="title">
-     <string>Primitive</string>
+     <string>&amp;Primitive</string>
     </property>
     <addaction name="actionBox"/>
     <addaction name="actionCone"/>
@@ -56,7 +56,7 @@
    </widget>
    <widget class="QMenu" name="menuModeling">
     <property name="title">
-     <string>Modeling</string>
+     <string>&amp;Modeling</string>
     </property>
     <addaction name="actionFillet"/>
     <addaction name="actionChamfer"/>
@@ -72,7 +72,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -85,7 +85,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>E&amp;xit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -100,7 +100,7 @@
      <normaloff>:/Resources/Zoom.png</normaloff>:/Resources/Zoom.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom</string>
+    <string>&amp;Zoom</string>
    </property>
   </action>
   <action name="actionPan">
@@ -112,7 +112,7 @@
      <normaloff>:/Resources/Pan.png</normaloff>:/Resources/Pan.png</iconset>
    </property>
    <property name="text">
-    <string>Pan</string>
+    <string>&amp;Pan</string>
    </property>
   </action>
   <action name="actionRotate">
@@ -127,7 +127,7 @@
      <normaloff>:/Resources/Rotate.png</normaloff>:/Resources/Rotate.png</iconset>
    </property>
    <property name="text">
-    <string>Rotate</string>
+    <string>&amp;Rotate</string>
    </property>
   </action>
   <action name="actionReset">
@@ -136,7 +136,7 @@
      <normaloff>:/Resources/Home.png</normaloff>:/Resources/Home.png</iconset>
    </property>
    <property name="text">
-    <string>Reset</string>
+    <string>Re&amp;set</string>
    </property>
   </action>
   <action name="actionFitAll">
@@ -145,7 +145,7 @@
      <normaloff>:/Resources/FitAll.png</normaloff>:/Resources/FitAll.png</iconset>
    </property>
    <property name="text">
-    <string>FitAll</string>
+    <string>Fit &amp;All</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -154,7 +154,7 @@
      <normaloff>:/Resources/lamp.png</normaloff>:/Resources/lamp.png</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionBox">
@@ -163,7 +163,7 @@
      <normaloff>:/Resources/box.png</normaloff>:/Resources/box.png</iconset>
    </property>
    <property name="text">
-    <string>Box</string>
+    <string>&amp;Box</string>
    </property>
   </action>
   <action name="actionCone">
@@ -172,7 +172,7 @@
      <normaloff>:/Resources/cone.png</normaloff>:/Resources/cone.png</iconset>
    </property>
    <property name="text">
-    <string>Cone</string>
+    <string>&amp;Cone</string>
    </property>
   </action>
   <action name="actionSphere">
@@ -181,7 +181,7 @@
      <normaloff>:/Resources/sphere.png</normaloff>:/Resources/sphere.png</iconset>
    </property>
    <property name="text">
-    <string>Sphere</string>
+    <string>&amp;Sphere</string>
    </property>
   </action>
   <action name="actionCylinder">
@@ -190,7 +190,7 @@
      <normaloff>:/Resources/cylinder.png</normaloff>:/Resources/cylinder.png</iconset>
    </property>
    <property name="text">
-    <string>Cylinder</string>
+    <string>C&amp;ylinder</string>
    </property>
   </action>
   <action name="actionTorus">
@@ -199,7 +199,7 @@
      <normaloff>:/Resources/torus.png</normaloff>:/Resources/torus.png</iconset>
    </property>
    <property name="text">
-    <string>Torus</string>
+    <string>&amp;Torus</string>
    </property>
   </action>
   <action name="actionFillet">
@@ -208,7 +208,7 @@
      <normaloff>:/Resources/fillet.png</normaloff>:/Resources/fillet.png</iconset>
    </property>
    <property name="text">
-    <string>Fillet</string>
+    <string>&amp;Fillet</string>
    </property>
   </action>
   <action name="actionChamfer">
@@ -217,7 +217,7 @@
      <normaloff>:/Resources/chamfer.png</normaloff>:/Resources/chamfer.png</iconset>
    </property>
    <property name="text">
-    <string>Chamfer</string>
+    <string>C&amp;hamfer</string>
    </property>
   </action>
   <action name="actionExtrude">
@@ -226,7 +226,7 @@
      <normaloff>:/Resources/extrude.png</normaloff>:/Resources/extrude.png</iconset>
    </property>
    <property name="text">
-    <string>Extrude</string>
+    <string>E&amp;xtrude</string>
    </property>
   </action>
   <action name="actionRevolve">
@@ -235,7 +235,7 @@
      <normaloff>:/Resources/revolve.png</normaloff>:/Resources/revolve.png</iconset>
    </property>
    <property name="text">
-    <string>Rovelve</string>
+    <string>Revolve</string>
    </property>
   </action>
   <action name="actionLoft">
@@ -244,7 +244,7 @@
      <normaloff>:/Resources/loft.png</normaloff>:/Resources/loft.png</iconset>
    </property>
    <property name="text">
-    <string>Loft</string>
+    <string>&amp;Loft</string>
    </property>
   </action>
   <action name="actionCut">
@@ -253,7 +253,7 @@
      <normaloff>:/Resources/cut.png</normaloff>:/Resources/cut.png</iconset>
    </property>
    <property name="text">
-    <string>Cut</string>
+    <string>&amp;Cut</string>
    </property>
   </action>
   <action name="actionFuse">
@@ -262,7 +262,7 @@
      <normaloff>:/Resources/fuse.png</normaloff>:/Resources/fuse.png</iconset>
    </property>
    <property name="text">
-    <string>Fuse</string>
+    <string>&amp;Fuse</string>
    </property>
   </action>
   <action name="actionCommon">
@@ -271,7 +271,7 @@
      <normaloff>:/Resources/common.png</normaloff>:/Resources/common.png</iconset>
    </property>
    <property name="text">
-    <string>Common</string>
+    <string>Co&amp;mmon</string>
    </property>
   </action>
   <action name="actionHelix">
@@ -280,7 +280,7 @@
      <normaloff>:/Resources/helix.png</normaloff>:/Resources/helix.png</iconset>
    </property>
    <property name="text">
-    <string>Helix</string>
+    <string>&amp;Helix</string>
    </property>
   </action>
  </widget>

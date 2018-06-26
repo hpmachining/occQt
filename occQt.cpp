@@ -174,6 +174,7 @@ void occQt::makeBox()
     anAisBox->SetColor(Quantity_NOC_AZURE);
 
     myOccView->getContext()->Display(anAisBox, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeCone()
@@ -194,6 +195,7 @@ void occQt::makeCone()
 
     myOccView->getContext()->Display(anAisReducer, Standard_True);
     myOccView->getContext()->Display(anAisCone, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeSphere()
@@ -207,6 +209,7 @@ void occQt::makeSphere()
     anAisSphere->SetColor(Quantity_NOC_BLUE1);
 
     myOccView->getContext()->Display(anAisSphere, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeCylinder()
@@ -227,6 +230,7 @@ void occQt::makeCylinder()
 
     myOccView->getContext()->Display(anAisCylinder, Standard_True);
     myOccView->getContext()->Display(anAisPie, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeTorus()
@@ -247,6 +251,7 @@ void occQt::makeTorus()
 
     myOccView->getContext()->Display(anAisTorus, Standard_True);
     myOccView->getContext()->Display(anAisElbow, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeFillet()
@@ -267,6 +272,7 @@ void occQt::makeFillet()
     anAisShape->SetColor(Quantity_NOC_VIOLET);
 
     myOccView->getContext()->Display(anAisShape, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeChamfer()
@@ -292,6 +298,7 @@ void occQt::makeChamfer()
     anAisShape->SetColor(Quantity_NOC_TOMATO);
 
     myOccView->getContext()->Display(anAisShape, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeExtrude()
@@ -332,6 +339,7 @@ void occQt::makeExtrude()
     myOccView->getContext()->Display(anAisPrismEdge, Standard_True);
     myOccView->getContext()->Display(anAisPrismCircle, Standard_True);
     myOccView->getContext()->Display(anAisPrismEllipse, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeRevol()
@@ -378,6 +386,7 @@ void occQt::makeRevol()
     myOccView->getContext()->Display(anAisRevolEdge, Standard_True);
     myOccView->getContext()->Display(anAisRevolCircle, Standard_True);
     myOccView->getContext()->Display(anAisRevolEllipse, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::makeLoft()
@@ -416,6 +425,7 @@ void occQt::makeLoft()
 
     myOccView->getContext()->Display(anAisShell, Standard_True);
     myOccView->getContext()->Display(anAisSolid, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::testCut()
@@ -449,6 +459,7 @@ void occQt::testCut()
     myOccView->getContext()->Display(anAisSphere, Standard_True);
     myOccView->getContext()->Display(anAisCuttedShape1, Standard_True);
     myOccView->getContext()->Display(anAisCuttedShape2, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::testFuse()
@@ -475,6 +486,7 @@ void occQt::testFuse()
     myOccView->getContext()->Display(anAisBox, Standard_True);
     myOccView->getContext()->Display(anAisSphere, Standard_True);
     myOccView->getContext()->Display(anAisFusedShape, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::testCommon()
@@ -501,6 +513,7 @@ void occQt::testCommon()
     myOccView->getContext()->Display(anAisBox, Standard_True);
     myOccView->getContext()->Display(anAisSphere, Standard_True);
     myOccView->getContext()->Display(anAisCommonShape, Standard_True);
+    myOccView->fitAll();
 }
 
 void occQt::testHelix()
@@ -560,6 +573,7 @@ void occQt::makeCylindricalHelix()
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_CORAL);
         myOccView->getContext()->Display(anAisPipe, Standard_True);
+        myOccView->fitAll();
     }
 }
 
@@ -615,6 +629,7 @@ void occQt::makeConicalHelix()
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_DARKGOLDENROD);
         myOccView->getContext()->Display(anAisPipe, Standard_True);
+        myOccView->fitAll();
     }
 }
 
@@ -666,5 +681,6 @@ void occQt::makeToroidalHelix()
         Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
         anAisPipe->SetColor(Quantity_NOC_CORNSILK1);
         myOccView->getContext()->Display(anAisPipe, Standard_True);
+        myOccView->fitAll();
     }
 }
